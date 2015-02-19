@@ -30,18 +30,6 @@
       <artifactId>json-smart</artifactId>
       <version>2.0</version>
     </dependency>
-
-    <!-- flink -->
-    <dependency>
-      <groupId>org.apache.flink</groupId>
-      <artifactId>flink-java</artifactId>
-      <version>0.8.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.flink</groupId>
-      <artifactId>flink-clients</artifactId>
-      <version>0.8.0</version>
-    </dependency>
   </dependencies>
 
 
