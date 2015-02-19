@@ -30,6 +30,8 @@ public class SideData extends Configured implements Tool {
   }
 
   static class SideDataMapper extends Mapper<Text, IntWritable, Text, IntWritable> {
+    protected String sideData = null;
+
     @Override
     protected void setup(Context context) {
       try {
@@ -46,11 +48,16 @@ public class SideData extends Configured implements Tool {
         File f = new File("SIDE-DATA");
         System.out.println("Can I read this? " + f.canRead());
         BufferedReader r = new BufferedReader(new FileReader(f));
-        System.out.println("Contents = \"" + r.readLine() + "\"");
+        sideData = r.readLine();
+        System.out.println("Contents = \"" + sideData + "\"");
         r.close();
       } catch (Exception ex) {
         throw new RuntimeException(ex);
       }
+    }
+
+    public void map(Text key, IntWritable value, Context context) throws java.io.IOException, InterruptedException {
+        context.write(new Text(sideData), value);
     }
   }
 
@@ -67,7 +74,7 @@ public class SideData extends Configured implements Tool {
     job.setReducerClass(SideDataReducer.class);
     job.setNumReduceTasks(1);
 
-    FileInputFormat.addInputPath(job, new Path("README"));
+    FileInputFormat.addInputPath(job, new Path("/README"));
     Path outputDir = new Path("out");
     FileOutputFormat.setOutputPath(job, outputDir);
 
