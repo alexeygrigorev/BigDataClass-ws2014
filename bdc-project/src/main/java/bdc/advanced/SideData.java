@@ -57,7 +57,7 @@ public class SideData extends Configured implements Tool {
     }
 
     public void map(Text key, IntWritable value, Context context) throws java.io.IOException, InterruptedException {
-        context.write(new Text(sideData), value);
+      context.write(new Text(sideData), value);
     }
   }
 
