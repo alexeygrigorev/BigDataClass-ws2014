@@ -13,6 +13,7 @@
       <excludes>
         <exclude>org.apache.hadoop:hadoop-common</exclude>
         <exclude>org.apache.hadoop:hadoop-mapreduce-client-common</exclude>
+        <exclude>org.scala-lang:scala-library</exclude>
       </excludes>
     </dependencySet>
     <dependencySet>
