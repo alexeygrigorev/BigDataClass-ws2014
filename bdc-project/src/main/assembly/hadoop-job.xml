@@ -9,8 +9,10 @@
       <unpack>false</unpack>
       <scope>runtime</scope>
       <outputDirectory>lib</outputDirectory>
+      <useTransitiveFiltering>true</useTransitiveFiltering>
       <excludes>
-        <exclude>${groupId}:${artifactId}</exclude>
+        <exclude>org.apache.hadoop:hadoop-common</exclude>
+        <exclude>org.apache.hadoop:hadoop-mapreduce-client-common</exclude>
       </excludes>
     </dependencySet>
     <dependencySet>
