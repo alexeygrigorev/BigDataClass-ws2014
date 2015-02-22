@@ -1,17 +1,17 @@
 # view data
-SELECT * FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json`;
+SELECT * FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` limit 1;
 
 # total reviews in the data set
-SELECT sum(review_count) as totalreviews FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json` ;
+SELECT sum(review_count) as totalreviews FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` ;
 
 # top states and cities in total number of reviews
-SELECT state, city, count(*) totalreviews FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json` GROUP BY state, city ORDER BY count(*) DESC LIMIT 10;
+SELECT state, city, count(*) totalreviews FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` GROUP BY state, city ORDER BY count(*) DESC LIMIT 10;
 
 # average number of reviews per business star rating
-SELECT stars,trunc(avg(review_count)) reviewsavg FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json` GROUP BY stars ORDER BY stars DESC;
+SELECT stars,trunc(avg(review_count)) reviewsavg FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` GROUP BY stars ORDER BY stars DESC;
 
-# top businesses with high review counts (> 100)
-SELECT name, state,city, `review_count` FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json` WHERE review_count > 100 order BY `review_count` DESC LIMIT 10;
+# top businesses with high review counts (> 1000)
+SELECT name, state,city, `review_count` FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` WHERE review_count > 1000 order BY `review_count` DESC LIMIT 10;
 
 # saturday open and close times for a few businesses
-SELECT b.name, b.hours.Saturday.`open`, b.hours.Saturday.`close` FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp.json` b LIMIT 10;
+SELECT b.name, b.hours.Saturday.`open`, b.hours.Saturday.`close` FROM dfs.`/home/BIGdata/bdc-ws14/opt/data/yelp_business.json` b LIMIT 10;
