@@ -34,10 +34,10 @@ grouped_by_year = group movies by year;
 count_by_year = FOREACH grouped_by_year GENERATE group, COUNT(movies);
 
 -- List all the movies in the ascending order of year.
-desc_movies_by_year = ORDER movies BY year ASC;
+asc_movies_by_year = ORDER movies BY year ASC;
 
 -- List all the movies in the descending order of year.
-asc_movies_by_year = ORDER movies by year DESC;
+desc_movies_by_year = ORDER movies by year DESC;
 
 -- Use the sample keyword to get sample set from your data.
 sample_10_percent = sample movies 0.1;
