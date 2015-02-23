@@ -55,6 +55,7 @@ public class HashtagTrends extends Configured implements Tool {
         private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss",
                 Locale.ENGLISH);
 
+        @Override
         public void reduce(TimestampedHashtag key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
             int cnt = 0;
