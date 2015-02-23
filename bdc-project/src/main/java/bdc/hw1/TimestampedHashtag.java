@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Date;
 
-import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
-public class TimestampedHashtag implements Writable {
+public class TimestampedHashtag implements WritableComparable<TimestampedHashtag> {
     private long timestamp;
     private String hashtag;
 
@@ -77,6 +77,14 @@ public class TimestampedHashtag implements Writable {
         }
         return true;
     }
-    
-    
+
+    @Override
+    public int compareTo(TimestampedHashtag o) {
+        if (timestamp == o.timestamp) {
+            return hashtag.compareTo(o.hashtag);
+        } else {
+            return Long.compare(timestamp, o.timestamp);
+        }
+    }
+
 }
