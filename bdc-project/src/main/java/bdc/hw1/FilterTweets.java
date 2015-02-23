@@ -39,20 +39,16 @@ public class FilterTweets extends Configured implements Tool {
 
         @Override
         public void map(Object key, Text jsonText, Context context) throws IOException, InterruptedException {
+            if ("".equals(jsonText.toString().trim())) {
+                return;
+            }
+
             Tweet tweet = Tweet.fromJson(jsonText.toString());
 
             if (users.contains(tweet.getUserName()) || tweet.containsMentionOf(users)) {
                 Text value = new Text(tweet.getUserName() + "\t" + tweet.getText());
                 context.write(new LongWritable(tweet.getId()), value);
             }
-        }
-    }
-
-    public static class MinMaxMeanReducer extends
-            Reducer<DoubleWritable, DoubleWritable, DoubleWritable, Text> {
-        @Override
-        public void reduce(DoubleWritable key, Iterable<DoubleWritable> values, Context context)
-                throws IOException, InterruptedException {
         }
     }
 
