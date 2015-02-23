@@ -1,13 +1,13 @@
 package bdc.ex1;
 
-import bdc.wordcount.WordCountMapper;
-import bdc.wordcount.WordCountReducer;
+import java.io.IOException;
+import java.text.MessageFormat;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -19,19 +19,11 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-
-/**
- * Write a map reduce job which computes the maximal temperature if the input is given
- * as year, temp pairs.
- */
 public class MinMaxMeanValue extends Configured implements Tool {
 
     public static class TextToDoubleMapper extends Mapper<Object, Text, DoubleWritable, DoubleWritable> {
         @Override
-        public void map(Object key, Text value, Mapper.Context context)
-                throws IOException, InterruptedException {
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             String[] csv = value.toString().split("\\s+");
             DoubleWritable keyOut = new DoubleWritable(Double.parseDouble(csv[0]));
             DoubleWritable valueOut = new DoubleWritable(Double.parseDouble(csv[1]));
@@ -39,7 +31,8 @@ public class MinMaxMeanValue extends Configured implements Tool {
         }
     }
 
-    public static class MinMaxMeanReducer extends Reducer<DoubleWritable, DoubleWritable, DoubleWritable, Text> {
+    public static class MinMaxMeanReducer extends
+            Reducer<DoubleWritable, DoubleWritable, DoubleWritable, Text> {
         @Override
         public void reduce(DoubleWritable key, Iterable<DoubleWritable> values, Context context)
                 throws IOException, InterruptedException {
@@ -67,7 +60,6 @@ public class MinMaxMeanValue extends Configured implements Tool {
             context.write(key, new Text(output));
         }
     }
-
 
     @Override
     public int run(String[] args) throws Exception {
@@ -105,7 +97,6 @@ public class MinMaxMeanValue extends Configured implements Tool {
         FileOutputFormat.setOutputPath(job, outputDir);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-
         // Delete output if exists
         FileSystem hdfs = FileSystem.get(conf);
         if (hdfs.exists(outputDir) && hdfs.isDirectory(outputDir)) {
@@ -116,11 +107,9 @@ public class MinMaxMeanValue extends Configured implements Tool {
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
-
     public static void main(String[] args) throws Exception {
         int exitCode = ToolRunner.run(new MinMaxMeanValue(), args);
         System.exit(exitCode);
     }
-
 
 }
