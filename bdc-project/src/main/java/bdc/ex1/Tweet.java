@@ -19,10 +19,22 @@ public class Tweet {
     private String text;
     private Date createdAt;
     private Set<String> mentions = new HashSet<>();
+    private Set<String> hashtags = new HashSet<>();
+    private Tweet retweeted;
 
     public static Tweet fromJson(String jsonString) {
         JSONObject json = (JSONObject) JSONValue.parse(jsonString);
 
+        Tweet tweet = fromJsonObject(json);
+        JSONObject retweeted = (JSONObject) json.get("retweeted_status");
+        if (retweeted != null) {
+            tweet.retweeted = fromJsonObject(retweeted);
+        }
+
+        return tweet;
+    }
+
+    private static Tweet fromJsonObject(JSONObject json) {
         JSONObject user = (JSONObject) json.get("user");
         String name = user.getAsString("screen_name");
         String text = json.getAsString("text");
@@ -38,6 +50,14 @@ public class Tweet {
 
         for (JSONObject mention : mentions) {
             tweet.mentions.add(mention.getAsString("screen_name"));
+        }
+
+        @SuppressWarnings("unchecked")
+        List<JSONObject> hashtags = (List<JSONObject>) entities.get("hashtags");
+        if (hashtags != null) {
+            for (JSONObject tag : hashtags) {
+                tweet.hashtags.add(tag.getAsString("text"));
+            }
         }
 
         return tweet;
@@ -76,5 +96,17 @@ public class Tweet {
             }
         }
         return false;
+    }
+
+    public Set<String> getHashTags() {
+        return hashtags;
+    }
+
+    public boolean isRetweet() {
+        return retweeted != null;
+    }
+
+    public Tweet getRetweeted() {
+        return retweeted;
     }
 }

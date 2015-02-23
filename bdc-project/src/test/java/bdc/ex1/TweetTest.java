@@ -1,12 +1,15 @@
 package bdc.ex1;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import bdc.jsonexamples.ExampleTweet;
@@ -23,6 +26,19 @@ public class TweetTest {
 
         Set<String> mentions = new HashSet<String>(Arrays.asList("daniandreajonas", "DisneyStarFacts"));
         assertEquals(mentions, tweet.getMentions());
+    }
+
+    @Test
+    public void testRetweetHashtag() throws Exception {
+        InputStream stream = TweetTest.class.getResourceAsStream("hashtag.json");
+        String tweetString = IOUtils.toString(stream);
+
+        Tweet tweet = Tweet.fromJson(tweetString);
+        assertTrue(tweet.isRetweet());
+
+        Tweet original = tweet.getRetweeted();
+        Set<String> hashTags = new HashSet<String>(Arrays.asList("RT"));
+        assertEquals(hashTags, original.getHashTags());
     }
 
 }
