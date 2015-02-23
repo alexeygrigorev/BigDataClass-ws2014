@@ -81,6 +81,7 @@ public class HashtagTrends extends Configured implements Tool {
         job.setJarByClass(HashtagTrends.class);
 
         job.setMapperClass(TweetToTimestampedHashtagMapper.class);
+        job.setReducerClass(TimestampedHashtagCounter.class);
 
         // Specify key / value
         job.setMapOutputKeyClass(TimestampedHashtag.class);
