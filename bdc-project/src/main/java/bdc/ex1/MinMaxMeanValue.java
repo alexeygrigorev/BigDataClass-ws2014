@@ -70,16 +70,7 @@ public class MinMaxMeanValue extends Configured implements Tool {
 
 
     @Override
-    public int run(String[] strings) throws Exception {
-
-    }
-
-    public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new MinimalMRJob(), args);
-        System.exit(exitCode);
-    }
-
-    public static void main(String[] args) throws Exception {
+    public int run(String[] args) throws Exception {
         if (args.length != 2) {
             System.out.println("Usage: <in> <out>");
             System.exit(0);
@@ -122,9 +113,14 @@ public class MinMaxMeanValue extends Configured implements Tool {
         }
 
         // Execute job
-        int code = job.waitForCompletion(true) ? 0 : 1;
-        System.exit(code);
-
+        return job.waitForCompletion(true) ? 0 : 1;
     }
+
+
+    public static void main(String[] args) throws Exception {
+        int exitCode = ToolRunner.run(new MinMaxMeanValue(), args);
+        System.exit(exitCode);
+    }
+
 
 }
