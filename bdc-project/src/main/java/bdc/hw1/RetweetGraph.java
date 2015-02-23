@@ -103,7 +103,7 @@ public class RetweetGraph extends Configured implements Tool {
     }
 
     public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new HashtagTrends(), args);
+        int exitCode = ToolRunner.run(new RetweetGraph(), args);
         System.exit(exitCode);
     }
 }
