@@ -10,7 +10,7 @@ import scala.collection.mutable
 /**
  * Minimal JSON helper functions
  */
-class JSON(json: Any) {
+class JSON(json: Any) extends Serializable {
   val j = json
 
   def asInt = j.asInstanceOf[Int]
